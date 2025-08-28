@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="loginstyle.css">
+</head>
+<body>
+  <div class="home-container">
+    <h1>Welcome!</h1>
+    <p id="welcomeMessage"></p>
+    <button onclick="logout()">Logout</button>
+    <button id="goUserPage">Go to User Management</button>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      window.location.href = "login.html"; // Not logged in
+    } else {
+      document.getElementById("welcomeMessage").textContent = user.description || "Welcome!";
+    }
+
+    function logout() {
+      localStorage.removeItem("user");
+      window.location.href = "login.html";
+    }
+
+    // Redirect to user page only if Admin
+    document.getElementById("goUserPage").addEventListener("click", () => {
+      if (user.userType === "ADMIN") {
+        window.location.href = "users.html";
+      } else {
+        alert("Only Admin can access User Management.");
+      }
+    });
+  </script>
+</body>
+</html>
